@@ -110,6 +110,7 @@ public class JobInfoController {
         }
     }
 
+    //条件查询翻页
     @RequestMapping("/pageList")
     @ResponseBody
     public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,
@@ -126,30 +127,35 @@ public class JobInfoController {
         return xxlJobService.add(jobInfo);
     }
 
+    //更新任务
     @RequestMapping("/update")
     @ResponseBody
     public ReturnT<String> update(XxlJobInfo jobInfo) {
         return xxlJobService.update(jobInfo);
     }
 
+    //删除任务
     @RequestMapping("/remove")
     @ResponseBody
     public ReturnT<String> remove(int id) {
         return xxlJobService.remove(id);
     }
 
+    //停止任务
     @RequestMapping("/stop")
     @ResponseBody
     public ReturnT<String> pause(int id) {
         return xxlJobService.stop(id);
     }
 
+    //启动任务
     @RequestMapping("/start")
     @ResponseBody
     public ReturnT<String> start(int id) {
         return xxlJobService.start(id);
     }
 
+    //执行一次
     @RequestMapping("/trigger")
     @ResponseBody
     //@PermissionLimit(limit = false)
@@ -163,6 +169,7 @@ public class JobInfoController {
         return ReturnT.SUCCESS;
     }
 
+    //获取后续执行时间(显示5条)
     @RequestMapping("/nextTriggerTime")
     @ResponseBody
     public ReturnT<List<String>> nextTriggerTime(String scheduleType, String scheduleConf) {
