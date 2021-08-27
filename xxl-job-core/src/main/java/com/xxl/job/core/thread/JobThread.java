@@ -131,7 +131,7 @@ public class JobThread extends Thread{
 
 					if (triggerParam.getExecutorTimeout() > 0) {
 						// limit timeout
-						Thread futureThread = null;
+						Thread futureThread = null ;
 						try {
 							FutureTask<Boolean> futureTask = new FutureTask<Boolean>(new Callable<Boolean>() {
 								@Override

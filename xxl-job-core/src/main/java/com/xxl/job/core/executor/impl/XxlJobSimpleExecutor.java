@@ -22,14 +22,17 @@ public class XxlJobSimpleExecutor extends XxlJobExecutor {
 
 
     private List<Object> xxlJobBeanList = new ArrayList<>();
+
     public List<Object> getXxlJobBeanList() {
         return xxlJobBeanList;
     }
+
     public void setXxlJobBeanList(List<Object> xxlJobBeanList) {
         this.xxlJobBeanList = xxlJobBeanList;
     }
 
 
+    @Override
     public void start() {
 
         // init JobHandler Repository (for method)
@@ -43,21 +46,22 @@ public class XxlJobSimpleExecutor extends XxlJobExecutor {
         }
     }
 
+    @Override
     public void destroy() {
         super.destroy();
     }
 
 
     private void initJobHandlerMethodRepository(List<Object> xxlJobBeanList) {
-        if (xxlJobBeanList==null || xxlJobBeanList.size()==0) {
+        if (xxlJobBeanList == null || xxlJobBeanList.size() == 0) {
             return;
         }
 
         // init job handler from method
-        for (Object bean: xxlJobBeanList) {
+        for (Object bean : xxlJobBeanList) {
             // method
             Method[] methods = bean.getClass().getDeclaredMethods();
-            if (methods==null || methods.length==0) {
+            if (methods == null || methods.length == 0) {
                 continue;
             }
             for (Method executeMethod : methods) {
@@ -92,6 +96,7 @@ public class XxlJobSimpleExecutor extends XxlJobExecutor {
                 Method initMethod = null;
                 Method destroyMethod = null;
 
+                //判断handler是否设置了init方法
                 if (xxlJob.init().trim().length() > 0) {
                     try {
                         initMethod = bean.getClass().getDeclaredMethod(xxlJob.init());
@@ -100,6 +105,8 @@ public class XxlJobSimpleExecutor extends XxlJobExecutor {
                         throw new RuntimeException("xxl-job method-jobhandler initMethod invalid, for[" + bean.getClass() + "#" + executeMethod.getName() + "] .");
                     }
                 }
+
+                //判断handler是否设置了destory方法
                 if (xxlJob.destroy().trim().length() > 0) {
                     try {
                         destroyMethod = bean.getClass().getDeclaredMethod(xxlJob.destroy());
